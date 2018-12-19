@@ -1,0 +1,145 @@
+<div class="bg-default-light smart-scroll-y " style="height: calc(100vh - 55px)">
+    <div class="col-lg-12">
+        <div class="mt20 col-lg-4 col-md-6 col-xs-12">
+            Vehicle No
+            <div class="input-group mb15"> 
+                <input type="text" class="form-control" ng-model="model.data.vehicle"
+                       uib-typeahead="vehicle.jobNo as (vehicle.vehNo + ' - ' + vehicle.jobNo) for vehicle in ui.vehicleList |filter:$viewValue|limitTo:10" 
+                       typeahead-input-formatter="ui.vehicleLable($model);"
+                       typeahead-editable="false"
+                       ng-change="ui.changeVehNo(model.data.vehicle)"/>
+
+                <span class="input-group-btn"> 
+                    <button class="btn btn-success" type="button" ng-click="ui.search(model.data.vehicle)"><i class="fa fa-search"></i></button> 
+                </span>
+            </div>
+        </div>
+        <div class="mt20 col-lg-4 col-md-6 col-xs-12">
+            Model 
+            <input type="text" class="form-control" ng-model="model.data.model" ng-disabled="true"/>
+        </div>
+        <div class="mt20 col-lg-4 col-md-6 col-xs-12">
+            Customer
+            <input type="text" class="form-control" ng-model="model.data.customer"  ng-disabled="true"
+                   uib-typeahead="customer.cusNo as (customer.cusName + ' - ' + customer.mobNo) for customer in ui.customerList |filter:$viewValue|limitTo:10" 
+                   typeahead-input-formatter="ui.customerLable($model);"
+                   typeahead-editable="false"/>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-xs-12 mt20">
+        <div class="panel panel-primary panel-bordered">
+            <div class="panel-heading">
+                <div class="pull-left">Job Detail </div>
+            </div>
+            <div class="panel-body smart-scroll-y" style="max-height: calc(100vh - 300px)">
+                <div class="table-responsive" ng-show="ui.detailList.length">
+                    <table class="table table-striped table-bordered table-hover table-condensed responsive mb0" data-sortable=""
+                           data-sortable-initialized="true">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>U.Price</th>
+                                <th>Disc %</th>
+                                <th>Net Value</th>
+                                <th>Quantity</th>
+                                <th>Tot Value</th>
+                                <th ng-show="mainG.currentUser.type === 'admin'">Sales P.</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="detail in ui.detailList">
+                                <td>
+                                    <label class="label label-success " ng-show="ui.check(detail.enterDate);">|</label> 
+                                    <label class="label label-danger " ng-show="ui.bolt(detail.enterDate);">|</label> 
+                                    &nbsp;
+                                    {{detail.pdes}}
+                                </td>
+                                <td>{{detail.purchasePrice| number:2}}</td>
+                                <td>{{detail.purchaseDiscount}} %</td>
+                                <td>{{detail.purchasePrice-(detail.purchasePrice * detail.purchaseDiscount / 100) | number:2}}</td>
+                                <td>{{detail.qty}}</td>
+                                <td>{{(detail.purchasePrice-(detail.purchasePrice * detail.purchaseDiscount / 100))*detail.qty | number:2}}</td>
+                                <td ng-show="mainG.currentUser.type === 'admin'">{{detail.uprice| number:2}}</td>
+                                <td ng-show="mainG.currentUser.type === 'admin' || mainG.currentUser.type==='editor'">
+                                    <a class="btn btn-warning btn-round btn-sm" ng-click="ui.popup(detail)">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                     <label class="label label-success" ng-show="detail.isUserUpdate">1</label> 
+                                     <label class="label label-success" ng-show="detail.isAdminUpdate">2</label> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="!ui.detailList.length">
+                    <center>
+                        Empty Data ! Select Vehicle to view Details (:
+                    </center>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="popup.html">
+    <div class="col-lg-12 background-light no-padding modal-dialog-1200">
+    <div class="row">
+    <div class="modal-header bg-primary" style="height:60px">
+    <div class="col-lg-12">
+    <center>
+    <label class="h3"> Price Editor </label>
+    </center>
+    </div>
+    </div>
+    <div class="modal-body bg-white" style="height:270px;padding-left:0px;padding-right:0px">
+    <div class="col-xs-12 ">
+    <div class="col-lg-6">
+    <div>
+    Item
+    <input type="text" class="form-control" ng-model="model.popupData.pdes" ng-disabled="true"/>
+    </div>
+    <div>
+    Unit Price
+    <input type="number" class="form-control text-right border-primary" ng-model="model.popupData.purchasePrice" 
+    ng-disabled="false"  ng-change="ui.unitPriceChange()"/>
+    </div>
+    <div>
+    Discount %
+    <input type="number" class="form-control border-primary text-right" ng-model="model.popupData.purchaseDiscount" 
+    ng-disabled="false" ng-change="ui.discountChange()"/>
+    </div>
+    <div ng-show="mainG.currentUser.type==='admin'">
+    Sales Price
+    <input type="number" class="form-control text-right border-primary" ng-model="model.popupData.uprice" ng-disabled="false"/>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div>
+    Qty
+    <input type="number" class="form-control text-right" ng-model="model.popupData.qty" ng-disabled="true"/>
+    </div>
+    <div>
+    Value
+    <input type="number" class="form-control text-right" ng-model="model.popupData.value" ng-disabled="true"/>
+    </div>
+    <div>
+    Total
+    <input type="number" class="form-control text-right" ng-model="model.popupData.total" ng-disabled="true"/>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="modal-footer bg-grey">
+    <div class="col-lg-12">
+    <center>
+    <input type="button" style="width:75px" class='btn btn-defsult' value="Cancel" ng-click="ui.modelCancel()" />
+    <input type="button" style="width:75px" class='btn btn-success' value="Save" ng-disabled="popupDisabled"  ng-click="ui.save()"/>
+    </center>
+    </div>
+    </div>
+    </div>
+    </div>
+</script>

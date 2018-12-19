@@ -1,0 +1,7 @@
+/super_techno/bower_components/
+/super_techno/node_modules/
+/super_techno/target/
+/super_techno/nb-configuration.xml
+/super_techno/src/main/resources/application.properties
+
+/super_techno/nbproject/

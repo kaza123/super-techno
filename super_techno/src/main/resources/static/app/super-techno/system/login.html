@@ -1,0 +1,63 @@
+<div class="login">
+    <div class="login-window">
+        <div class="login-form">
+            <div class="login-header">
+                <!--                <div style="padding-top: 15px;"></div>
+                                <label style="padding-bottom: 0!important; padding-top: 20px; color: whitesmoke">Login</label>-->
+                <div class="text-center mb15 mt20 h3"> 
+                    Super Techno
+                </div> 
+                <p class="text-center mb0">Welcome to Super Techno. Please sign in to your account</p>
+            </div>
+
+            <div class="alert alert-danger" ng-show="error" style="margin-bottom: 0px">
+                {{error}}
+            </div>
+
+           
+            <form role="form" ng-submit="login()">
+                <div class="form-inputs"> 
+                    <input type="text" class="form-control input-lg" placeholder="Branch" _vkenabled="true" ng-model="branch" uib-typeahead="branch.indexNo as (branch.indexNo+' - '+branch.name) for branch in ui.branchList |filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.branchLable($model)" typeahead-editable="false"> 
+                    <input type="text" class="form-control input-lg" placeholder="User Name" _vkenabled="true" ng-model="username"> 
+                    <input type="password" class="form-control input-lg" placeholder="Password" _vkenabled="true" ng-model="password">
+                </div> 
+                <button class="btn btn-success btn-block btn-lg" type="submit">
+                    <span>Sign in</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--<div class="app layout-fixed-header bg-white usersession login"> 
+    <div class="full-height login-window"> 
+        <div class="center-wrapper login-form"> 
+            <div class="center-content"> 
+                <div class="row no-margin"> 
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4"> 
+                        <form role="form" action="/" class="form-layout"> 
+                            <div class="text-center mb15"> 
+                                <img src="images/logo-dark.5ba260bb.png">
+                            </div> 
+                            <p class="text-center mb30">Welcome to Urban. Please sign in to your account</p>
+                            <div class="form-inputs"> 
+                                <input type="email" class="form-control input-lg" placeholder="Email Address" _vkenabled="true"> 
+                                <input type="password" class="form-control input-lg" placeholder="Password" _vkenabled="true">
+                            </div> 
+                            <button class="btn btn-success btn-block btn-lg mb15" type="submit">
+                                <span>Sign in</span>
+                            </button>
+                            <p>
+                                <a href="extras-signup.html">Create an account</a>
+                                · <a href="extras-forgot.html">Forgot your password?</a>
+                            </p>
+                        </form> 
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
